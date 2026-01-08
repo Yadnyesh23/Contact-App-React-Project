@@ -1,9 +1,9 @@
 import React from "react";
 import ContactCard from "./ContactCard";
 
-function ContactList({ contacts }) {
+function ContactList({ contacts , onDeleteContact}) {
   const renderContactList = contacts.map((contact) => {
-    return <ContactCard key={contact.id} contact={contact} />;
+    return <ContactCard key={contact.id} contact={contact} onDelete={onDeleteContact} />;
   });
 
   return (

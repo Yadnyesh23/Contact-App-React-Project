@@ -1,6 +1,33 @@
 import React from "react";
+import {useState} from 'react'
 
-function AddContact() {
+function AddContact({onAddContact}) {
+
+  const [name, setName] = useState('')
+  const [email, setEmail] = useState('')
+  const [number, setNumber] = useState('')
+
+  const addContact = (e) => {
+    e.preventDefault()
+
+    if(!name || !email || !number){
+      alert("All fields are required!");
+      return;
+    }
+    
+    onAddContact({
+      id: Date.now(),
+      name,
+      email,
+      number
+    })
+    
+    setName("");
+    setEmail("");
+    setNumber("");
+
+  }
+  
   return (
     <>
       <div className="min-h-screen bg-gray-950 pt-24 px-4">
@@ -10,7 +37,7 @@ function AddContact() {
             Add Contact
           </h2>
 
-          <form className="space-y-5">
+          <form className="space-y-5" onSubmit={addContact}>
             {/* Name */}
             <div className="flex flex-col gap-1">
               <label className="text-gray-300 text-sm font-medium">
@@ -21,6 +48,8 @@ function AddContact() {
                 name="name"
                 placeholder="Enter name"
                 className="bg-gray-950 border border-gray-700 text-gray-200 rounded-lg px-4 py-2 outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
               />
             </div>
 
@@ -34,6 +63,22 @@ function AddContact() {
                 name="email"
                 placeholder="Enter email"
                 className="bg-gray-950 border border-gray-700 text-gray-200 rounded-lg px-4 py-2 outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+            </div>
+
+            <div className="flex flex-col gap-1">
+              <label className="text-gray-300 text-sm font-medium">
+                Number
+              </label>
+              <input
+                type="number"
+                name="number"
+                placeholder="Enter number"
+                className="bg-gray-950 border border-gray-700 text-gray-200 rounded-lg px-4 py-2 outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition"
+                value={number}
+                onChange={(e) => setNumber(e.target.value)}
               />
             </div>
 
