@@ -1,38 +1,60 @@
+import { ArrowBigLeft } from "lucide-react";
 import React from "react";
-import {useState} from 'react'
+import { useState } from "react";
+import { Link } from "react-router-dom";
 
-function AddContact({onAddContact}) {
-
-  const [name, setName] = useState('')
-  const [email, setEmail] = useState('')
-  const [number, setNumber] = useState('')
+function AddContact({ onAddContact }) {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [number, setNumber] = useState("");
+  const [showToast, setShowToast] = useState(false);
 
   const addContact = (e) => {
-    e.preventDefault()
+    e.preventDefault();
 
-    if(!name || !email || !number){
+    if (!name || !email || !number) {
       alert("All fields are required!");
       return;
     }
-    
+
     onAddContact({
       id: Date.now(),
       name,
       email,
-      number
-    })
-    
+      number,
+    });
+
     setName("");
     setEmail("");
     setNumber("");
 
-  }
-  
+    setShowToast(true);
+
+    setTimeout(() => {
+      setShowToast(false);
+    }, 2000);
+  };
+
   return (
     <>
       <div className="min-h-screen bg-gray-950 pt-24 px-4">
+        {showToast && (
+          <div
+            className="
+    fixed top-6 right-6
+    bg-gray-900 border border-blue-500/40
+    text-blue-400
+    px-5 py-3 rounded-lg
+    shadow-lg shadow-blue-900/30
+    animate-slideIn
+    z-50
+  "
+          >
+            ✅ Contact added successfully
+          </div>
+        )}
+
         <div className="max-w-xl mx-auto bg-gray-900 border border-blue-900/40 rounded-xl shadow-md p-6">
-          
           <h2 className="text-blue-400 text-2xl font-semibold mb-6 text-center">
             Add Contact
           </h2>
@@ -40,9 +62,7 @@ function AddContact({onAddContact}) {
           <form className="space-y-5" onSubmit={addContact}>
             {/* Name */}
             <div className="flex flex-col gap-1">
-              <label className="text-gray-300 text-sm font-medium">
-                Name
-              </label>
+              <label className="text-gray-300 text-sm font-medium">Name</label>
               <input
                 type="text"
                 name="name"
@@ -55,9 +75,7 @@ function AddContact({onAddContact}) {
 
             {/* Email */}
             <div className="flex flex-col gap-1">
-              <label className="text-gray-300 text-sm font-medium">
-                Email
-              </label>
+              <label className="text-gray-300 text-sm font-medium">Email</label>
               <input
                 type="text"
                 name="email"
@@ -91,6 +109,24 @@ function AddContact({onAddContact}) {
             </button>
           </form>
         </div>
+        <Link to="/">
+          <button
+            className="
+            fixed bottom-6 right-6
+            flex items-center gap-2
+            bg-blue-600 hover:bg-blue-500
+            text-white font-medium
+            px-5 py-3 rounded-full
+            shadow-lg shadow-blue-900/40
+            transition-all duration-200
+            hover:scale-105
+            focus:outline-none focus:ring-2 focus:ring-blue-400
+          "
+          >
+            <ArrowBigLeft size={20} />
+            Back to Contact List
+          </button>
+        </Link>
       </div>
     </>
   );
